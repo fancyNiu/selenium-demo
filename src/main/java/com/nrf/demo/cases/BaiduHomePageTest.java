@@ -8,6 +8,7 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -20,9 +21,15 @@ import java.util.concurrent.TimeUnit;
 public class BaiduHomePageTest {
     private WebDriver driver;
     private String baseUrl = "https://www.baidu.com/";
+    private String caseFile;
+    private String caseSheet;
 
+    /**加载用例并初始化页面*/
+    @Parameters({"caseFile","resultReprot"})
     @BeforeTest
-    public void beforeTest(){
+    public void beforeTest(String caseFile, String resultReport){
+        //获取用例文件
+        this.caseFile = caseFile;
         FirefoxService service = new FirefoxService();
         service.addPlugin("extensions.firebug.currentVersion",new File(ClassLoader.getSystemResource("plugins/firebug@software.joehewitt.com.xpi").getFile()),"2.0.17");
         driver = service.init();
@@ -31,6 +38,9 @@ public class BaiduHomePageTest {
 
     @Test
     public void menuTest(){
+        //加载用例
+        String sheetName = "menu";
+
         JavascriptExecutor javascriptExecutor = (JavascriptExecutor)driver;
         driver.get(baseUrl);
         driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
@@ -42,7 +52,7 @@ public class BaiduHomePageTest {
     }
 
     @AfterTest
-    public  void  tearDown(){
+    public  void  AfterTest(){
         driver.quit();
     }
 }

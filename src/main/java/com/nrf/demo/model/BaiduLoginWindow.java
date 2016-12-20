@@ -41,6 +41,7 @@ public class BaiduLoginWindow {
         this.driver = driver;
     }
 
+    /**登陆功能*/
     public void login(String userName, String password, Boolean memberPass){
         driver.findElement(userNameBox).clear();
         driver.findElement(userNameBox).sendKeys(userName);

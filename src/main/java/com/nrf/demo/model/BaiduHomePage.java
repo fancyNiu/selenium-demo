@@ -34,22 +34,27 @@ public class BaiduHomePage {
         this.driver = driver;
     }
 
-    //打开百度首页
+    /**打开百度首页*/
     public WebDriver getUrl(){
         driver.get(url);
         return driver;
     }
 
+    /**打开登陆窗口*/
     public void getLoginWindow(){
         JavascriptExecutor javascriptExecutor = (JavascriptExecutor)driver;
         driver.get(url);
         driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
         List<WebElement> elements = (List<WebElement>) javascriptExecutor.executeScript("return jQuery.find('a.lb')");
-//        WebElement element = driver.findElement(login);
-        for(WebElement element : elements){
-            System.out.println(element.getText());
-        }
-
         elements.get(1).click();
+    }
+
+    /**定位到标签栏*/
+    public List<WebElement> getMenu(){
+        JavascriptExecutor javascriptExecutor = (JavascriptExecutor)driver;
+        driver.get(url);
+        driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+        List<WebElement> elements = (List<WebElement>) javascriptExecutor.executeScript("return jQuery.find('a.mnv')");
+        return elements;
     }
 }
