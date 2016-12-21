@@ -1,6 +1,11 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
 <suite name="All"    verbose="1" >
-    <parameter name="caseFile" value="data/test_cases.xls" />
+    <parameter name="caseFile" value="data/baidu_home_page.xls" />
     <parameter name="resultReprot" value="./report/" />
+    <test name="BaiduHomePage">
+        <classes>
+            <class name="com.nrf.demo.cases.BaiduHomePageTest"/>
+        </classes>
+    </test>
 </suite>

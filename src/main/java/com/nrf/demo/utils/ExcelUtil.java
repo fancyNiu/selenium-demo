@@ -19,7 +19,7 @@ public class ExcelUtil {
 
 //    private static final Logger LOG = LoggerFactory.getLogger(ExcelUtil.class);
 
-    public static List<TestCase> readExcel(File input, String sheetName, String page, String module){
+    public static List<TestCase> readExcel(File input, String sheetName){
         //创建一个list 用来存储读取的内容
         List<TestCase> list = new ArrayList<TestCase>();
 

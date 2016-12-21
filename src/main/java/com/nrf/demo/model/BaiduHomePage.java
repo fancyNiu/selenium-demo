@@ -51,10 +51,14 @@ public class BaiduHomePage {
 
     /**定位到标签栏*/
     public List<WebElement> getMenu(){
-        JavascriptExecutor javascriptExecutor = (JavascriptExecutor)driver;
         driver.get(url);
         driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
-        List<WebElement> elements = (List<WebElement>) javascriptExecutor.executeScript("return jQuery.find('a.mnv')");
+        List<WebElement> elements = null;
+        try {
+            elements = (List<WebElement>) ((JavascriptExecutor)driver).executeScript("return jQuery.find('a.mnav')");
+        }catch (RuntimeException e){
+            e.printStackTrace();
+        }
         return elements;
     }
 }

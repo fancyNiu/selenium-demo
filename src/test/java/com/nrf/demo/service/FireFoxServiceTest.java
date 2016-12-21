@@ -29,7 +29,7 @@ public class FireFoxServiceTest {
     public void addPluginTest(){
         String url = "https://www.baidu.com/";
         FirefoxService service = new FirefoxService();
-        service.addPlugin("extensions.firebug.currentVersion",new File(ClassLoader.getSystemResource("plugins/firebug@software.joehewitt.com.xpi").getFile()),"2.0.17");
+//        service.addPlugin("extensions.firebug.currentVersion",new File(ClassLoader.getSystemResource("plugins/firebug@software.joehewitt.com.xpi").getFile()),"2.0.17");
         driver = service.init();
         driver.manage().window().maximize();
         driver.get(url);

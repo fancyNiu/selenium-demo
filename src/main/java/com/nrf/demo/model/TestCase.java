@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class TestCase {
     /**测试用例id*/
-    public int id;
+    public String id;
     /**测试页面名称*/
     public String page;
     /**测试模块名称*/
@@ -29,15 +29,15 @@ public class TestCase {
     /**实际输出*/
     public String actualResult;
     /**测试结果*/
-    public String result;
+    public Boolean result;
     /**完整日志*/
     public String log;
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -93,6 +93,14 @@ public class TestCase {
         return input;
     }
 
+    public Boolean getResult() {
+        return result;
+    }
+
+    public void setResult(Boolean result) {
+        this.result = result;
+    }
+
     public void setInput(String input) {
         this.input = input;
     }
@@ -113,13 +121,6 @@ public class TestCase {
         this.actualResult = actualResult;
     }
 
-    public String getResult() {
-        return result;
-    }
-
-    public void setResult(String result) {
-        this.result = result;
-    }
 
     public String getLog() {
         return log;
@@ -148,7 +149,7 @@ public class TestCase {
     }
 
     public TestCase(Cell[] cells) {
-        this.id = Integer.parseInt(cells[0].getContents());
+        this.id = cells[0].getContents();
         this.page = cells[1].getContents();
         this.module = cells[2].getContents();
         this.name = cells[3].getContents();
