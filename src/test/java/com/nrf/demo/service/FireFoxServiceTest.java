@@ -22,6 +22,7 @@ public class FireFoxServiceTest {
         driver.manage().window().maximize();
         driver.get(url);
         Assert.assertEquals("没有成功打开" + url, url, driver.getCurrentUrl());
+        driver.close();
 
     }
 

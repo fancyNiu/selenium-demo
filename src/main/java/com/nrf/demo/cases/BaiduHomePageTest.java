@@ -2,6 +2,7 @@ package com.nrf.demo.cases;
 
 import com.nrf.demo.model.BaiduHomePage;
 import com.nrf.demo.model.TestCase;
+import com.nrf.demo.service.ChromeService;
 import com.nrf.demo.service.FirefoxService;
 import com.nrf.demo.utils.ExcelUtil;
 import com.sun.xml.internal.fastinfoset.algorithm.BooleanEncodingAlgorithm;
@@ -31,9 +32,10 @@ import java.util.concurrent.TimeUnit;
  * 4. 回写结果
  */
 public class BaiduHomePageTest {
-//    private WebDriver driver;
+    private WebDriver driver;
     private String baseUrl = "https://www.baidu.com/";
     private File caseFile;
+    private File resultReprot;
 
     /**加载用例并初始化页面*/
     @Parameters({"caseFile","resultReprot"})
@@ -41,6 +43,7 @@ public class BaiduHomePageTest {
     public void beforeTest(String caseFile, String resultReport){
         //获取用例文件
         this.caseFile = new File(ClassLoader.getSystemResource(caseFile).getFile());
+        this.resultReprot = new File(resultReport);
 
         //浏览器带插件初始化
 
@@ -55,53 +58,40 @@ public class BaiduHomePageTest {
         List<TestCase> testCases= ExcelUtil.readExcel(caseFile,sheetName);
         testCases.remove(0);
 
+        //初始化浏览器
+        driver = new FirefoxService().init();
+
         //执行用例
         for(TestCase testCase : testCases){
-            //获取百度首页的菜单栏
-            FirefoxService service = new FirefoxService();
-            WebDriver driver = service.init();
-            List<WebElement> menuList = new BaiduHomePage(driver).getMenu();
 
-            Boolean result = true;
-            if(menuList.size() == 6){
-                System.out.println("共找到了6个标签");
-            }else {
-                System.out.println("找到的标签数量不对，目标是6个，只找到了{}" + menuList.size());
-            }
-            for(WebElement menu : menuList){
-                testCase.getInput();
-                if(testCase.getInput().equals(menu.getText())){
-                    menu.click();
-                    Thread.sleep(500);
-                    //获取所有新窗口的句柄，
-                    String currentUrl = driver.getCurrentUrl();
+            //打开链接
+            new BaiduHomePage(driver).openLinkByText(testCase.getInput());
 
-                    //如果只打开了目标窗口，则测试通过
-                    if(currentUrl.equals(testCase.getExpectResult())){
-                        continue;
-                    }else if(!currentUrl.equals(baseUrl) && currentUrl.equals(testCase.getExpectResult())){
-                        System.out.println("打开的窗口不正确，预期打开窗口"+testCase.getExpectResult()+"，实际打开窗口"+currentUrl);
-                        result = false;
-                    }else {
-                        System.out.println("没有成功打开窗口");
-                        result = false;
-                    }
+            //获取新链接
+            String currentUrl = driver.getCurrentUrl();
+            System.out.println(currentUrl);
 
-                    testCase.setActualResult(currentUrl);
-                    testCase.setResult(result);
-                }
+            //判断链接是否正确
+            Boolean result = resultCompare(testCase.getExpectResult(),currentUrl);
+            testCase.setActualResult(currentUrl);
+            testCase.setResult(result);
 
-            }
-            //关闭浏览器
-            String handle = driver.getWindowHandle();
-            driver.switchTo().window(handle);
-            driver.quit();
         }
 
     }
-
     @AfterTest
     public  void  AfterTest(){
+        driver.quit();
+    }
 
+    /**结果对比*/
+    public Boolean resultCompare(String expect, String actual){
+        if(expect.equals(actual)){
+            System.out.println("测试通过");
+            return true;
+        }else {
+            System.out.println("测试失败");
+            return false;
+        }
     }
 }

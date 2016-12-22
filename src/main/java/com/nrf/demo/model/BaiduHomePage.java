@@ -50,15 +50,22 @@ public class BaiduHomePage {
     }
 
     /**定位到标签栏*/
-    public List<WebElement> getMenu(){
+    public void openLinkByText(String text) throws InterruptedException {
         driver.get(url);
         driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
-        List<WebElement> elements = null;
+        List<WebElement> menus = null;
         try {
-            elements = (List<WebElement>) ((JavascriptExecutor)driver).executeScript("return jQuery.find('a.mnav')");
+            menus = (List<WebElement>) ((JavascriptExecutor)driver).executeScript("return jQuery.find('a.mnav')");
         }catch (RuntimeException e){
             e.printStackTrace();
         }
-        return elements;
+
+        for(WebElement menu : menus){
+            if(text.equals(menu.getText())){
+                menu.click();
+                break;
+            }
+        }
+        Thread.sleep(1000);
     }
 }
