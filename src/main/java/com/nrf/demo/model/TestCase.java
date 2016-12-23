@@ -38,7 +38,7 @@ public class TestCase {
     }
 
     public void setId(String id) {
-        this.id = id;
+        id = id;
     }
 
     public String getPage() {
@@ -46,7 +46,7 @@ public class TestCase {
     }
 
     public void setPage(String page) {
-        this.page = page;
+        page = page;
     }
 
     public String getModule() {
@@ -54,7 +54,7 @@ public class TestCase {
     }
 
     public void setModule(String module) {
-        this.module = module;
+        module = module;
     }
 
     public String getName() {
@@ -62,7 +62,7 @@ public class TestCase {
     }
 
     public void setName(String name) {
-        this.name = name;
+        name = name;
     }
 
     public String getPriority() {
@@ -70,7 +70,7 @@ public class TestCase {
     }
 
     public void setPriority(String priority) {
-        this.priority = priority;
+        priority = priority;
     }
 
     public String getType() {
@@ -78,7 +78,7 @@ public class TestCase {
     }
 
     public void setType(String type) {
-        this.type = type;
+        type = type;
     }
 
     public String getStep() {
@@ -86,7 +86,7 @@ public class TestCase {
     }
 
     public void setStep(String step) {
-        this.step = step;
+        step = step;
     }
 
     public String getInput() {
@@ -98,11 +98,11 @@ public class TestCase {
     }
 
     public void setResult(Boolean result) {
-        this.result = result;
+        result = result;
     }
 
     public void setInput(String input) {
-        this.input = input;
+        input = input;
     }
 
     public String getExpectResult() {
@@ -110,7 +110,7 @@ public class TestCase {
     }
 
     public void setExpectResult(String expectResult) {
-        this.expectResult = expectResult;
+        expectResult = expectResult;
     }
 
     public String getActualResult() {
@@ -118,7 +118,7 @@ public class TestCase {
     }
 
     public void setActualResult(String actualResult) {
-        this.actualResult = actualResult;
+        actualResult = actualResult;
     }
 
 
@@ -127,7 +127,7 @@ public class TestCase {
     }
 
     public void setLog(String log) {
-        this.log = log;
+        log = log;
     }
 
     @Override
@@ -149,14 +149,18 @@ public class TestCase {
     }
 
     public TestCase(Cell[] cells) {
-        this.id = cells[0].getContents();
-        this.page = cells[1].getContents();
-        this.module = cells[2].getContents();
-        this.name = cells[3].getContents();
-        this.priority = cells[4].getContents();
-        this.type = cells[5].getContents();
-        this.step = cells[6].getContents();
-        this.input = cells[7].getContents();
-        this.expectResult = cells[8].getContents();
+        id = cells[0].getContents();
+        page = cells[1].getContents();
+        module = cells[2].getContents();
+        name = cells[3].getContents();
+        priority = cells[4].getContents();
+        type = cells[5].getContents();
+        step = cells[6].getContents();
+        input = cells[7].getContents();
+        expectResult = cells[8].getContents();
+        actualResult = "";
+        result = false;
+        log = "";
     }
+
 }

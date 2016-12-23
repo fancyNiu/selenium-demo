@@ -6,6 +6,8 @@ import com.nrf.demo.service.ChromeService;
 import com.nrf.demo.service.FirefoxService;
 import com.nrf.demo.utils.ExcelUtil;
 import com.sun.xml.internal.fastinfoset.algorithm.BooleanEncodingAlgorithm;
+import jxl.read.biff.BiffException;
+import jxl.write.WriteException;
 import org.apache.bcel.util.ClassLoader;
 import org.apache.xpath.SourceTree;
 import org.apache.xpath.operations.Bool;
@@ -19,6 +21,7 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -52,10 +55,10 @@ public class BaiduHomePageTest {
     }
 
     @Test(groups = {"BaiduHomePage"})
-    public void menuTest() throws InterruptedException {
+    public void menuTest() throws InterruptedException, BiffException, IOException, WriteException {
         //加载用例
         String sheetName = "menu";
-        List<TestCase> testCases= ExcelUtil.readExcel(caseFile,sheetName);
+        List<TestCase> testCases= ExcelUtil.readTestCase(caseFile,sheetName);
         testCases.remove(0);
 
         //初始化浏览器
@@ -75,9 +78,8 @@ public class BaiduHomePageTest {
             Boolean result = resultCompare(testCase.getExpectResult(),currentUrl);
             testCase.setActualResult(currentUrl);
             testCase.setResult(result);
-
         }
-
+        ExcelUtil.writeReport(resultReprot,testCases.get(0).getPage(),testCases);
     }
     @AfterTest
     public  void  AfterTest(){
