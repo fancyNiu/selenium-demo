@@ -1,11 +1,9 @@
 package com.nrf.demo.utils;
 
-import com.alibaba.fastjson.JSONObject;
 import com.nrf.demo.model.ReportFormat;
 import com.nrf.demo.model.TestCase;
 import jxl.Sheet;
 import jxl.Workbook;
-import jxl.format.UnderlineStyle;
 import jxl.read.biff.BiffException;
 import jxl.write.*;
 
@@ -20,6 +18,8 @@ import java.util.List;
 public class ExcelUtil {
 
 //    private static final Logger LOG = LoggerFactory.getLogger(ExcelUtil.class);
+    private static WritableWorkbook wwb = null;
+    private static WritableSheet sheet = null;
 
     public static List<TestCase> readTestCase(File input, String sheetName){
         //创建一个list 用来存储读取的内容
@@ -29,12 +29,12 @@ public class ExcelUtil {
             //创建输入流
             InputStream in = new FileInputStream(input);
 
-            //获取Excel文件对象
+            //获取Excel文件对象及表对象
             Workbook rwb = Workbook.getWorkbook(in);
-
             Sheet sheet = rwb.getSheet(sheetName);
             int rowCount = sheet.getRows();
-            //去除表头，读取每一行的内容,如果是当前测试的用例则存入list中
+
+            //去除表头，读取每一行的内容,将其加载成测试用例，并存放到list中
             for(int i=0;i<rowCount;i++){
                 TestCase testCase = new TestCase(sheet.getRow(i));
                 list.add(testCase);
@@ -51,40 +51,37 @@ public class ExcelUtil {
     }
 
     public static void writeReport(File output, List<TestCase> testCases) throws WriteException, IOException, BiffException {
-        WritableWorkbook wwb = null;
         String sheetName = "test_case";
+        int row = 0;
+        int length = testCases.size();
+        //如果该测试报告是空的，则新建文件并加载测试报告模板，如果非空，则在test_case页中追加正在执行的用例
         if(isEmpty(output)){
             wwb = loadTemplate(output);
-            WritableSheet sheet = wwb.getSheet(sheetName);
-            writeTitle(sheet);
+            sheet = wwb.createSheet(sheetName,1);
+            writeTitle();
+            row = 1;
         }else {
             Workbook rwb = null;
             try {
                 rwb = Workbook.getWorkbook(output);
                 File temp = new File(output.getParent()+File.separator+"tempfile.xls");
                 wwb = Workbook.createWorkbook(temp,rwb);
+                sheet = wwb.getSheet(sheetName);
+                row = sheet.getRows();
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (BiffException e) {
                 e.printStackTrace();
             }
-
         }
-
-        WritableSheet sheet = wwb.getSheet(sheetName);
-        writeTitle(sheet);
-        int length = testCases.size();
-        //写入标题
+        //写入测试用例执行情况
         for(int i=0;i<length;i++){
-            writeText(sheet,testCases.get(i),i+1);
+            writeText(testCases.get(i),i+row);
         }
+        //保存测试报告
+        wwb.write();
+        wwb.close();
 
-        try {
-            wwb.write();
-            wwb.close();
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
     }
 
     private static Boolean isEmpty(File file) throws IOException, BiffException {
@@ -104,7 +101,8 @@ public class ExcelUtil {
         return wwb;
     }
 
-    private static void writeTitle(WritableSheet sheet){
+    /**在test_case的sheet中写入title*/
+    private static void writeTitle(){
         try {
             WritableCellFormat titleFormat = new ReportFormat().getTitleFormat();
             WritableCellFormat textFormat = new ReportFormat().getTextFormat();
@@ -125,7 +123,8 @@ public class ExcelUtil {
         }
     }
 
-    private static void writeText(WritableSheet sheet, TestCase testCase, int row){
+    /***/
+    private static void writeText(TestCase testCase, int row){
         try {
             WritableCellFormat textFormat = new ReportFormat().getTextFormat();
             WritableCellFormat resultPassFormat= new ReportFormat().getResultPassFormat();
