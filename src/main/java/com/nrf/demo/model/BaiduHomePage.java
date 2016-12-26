@@ -14,24 +14,36 @@ import java.util.concurrent.TimeUnit;
  * Created by puhui on 2016/12/19.
  */
 public class BaiduHomePage {
-    private WebDriver driver;
+    public WebDriver driver;
     //百度首页地址
     private final String url = "https://www.baidu.com";
     //百度搜索框
     @FindBy(id="kw")
     @CacheLookup
-    public WebElement searchBox;
+    private By searchBox;
     //百度一下按钮
     @FindBy(id="su")
     @CacheLookup
-    public By searchButton;
+    private By searchButton;
     //登陆按钮
     @FindBy(className="lb")
     @CacheLookup
-    public By login;
+    private By login;
 
     public BaiduHomePage(WebDriver driver) {
         this.driver = driver;
+    }
+
+    public WebElement getSearchBox(){
+        return driver.findElement(searchBox);
+    }
+
+    public WebElement getSearchButton(){
+        return driver.findElement(searchButton);
+    }
+
+    public WebElement getLogin(){
+        return driver.findElement(login);
     }
 
     /**打开百度首页*/

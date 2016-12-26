@@ -76,7 +76,7 @@ public class ReportFormat {
         titleFont = new WritableFont(WritableFont.ARIAL,8,WritableFont.BOLD,false, UnderlineStyle.NO_UNDERLINE, jxl.format.Colour.BLACK);;
         titleFormat = new WritableCellFormat(titleFont);
 
-        titleFormat.setBackground(Colour.ORANGE);
+        titleFormat.setBackground(Colour.PERIWINKLE);
         titleFormat.setBorder(Border.ALL, BorderLineStyle.THIN);
         textFont = new WritableFont(WritableFont.ARIAL,12,WritableFont.NO_BOLD,false, UnderlineStyle.NO_UNDERLINE, jxl.format.Colour.BLACK);
         textFormat = new WritableCellFormat(textFont);

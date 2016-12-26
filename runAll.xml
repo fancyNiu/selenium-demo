@@ -2,7 +2,7 @@
 
 <suite name="All"    verbose="1" >
     <parameter name="caseFile" value="data/baidu_home_page.xls" />
-    <parameter name="resultReprot" value="./report/" />
+    <parameter name="resultReprot" value="/report/nrf0101.xls" />
     <test name="BaiduHomePage">
         <classes>
             <class name="com.nrf.demo.cases.BaiduHomePageTest"/>

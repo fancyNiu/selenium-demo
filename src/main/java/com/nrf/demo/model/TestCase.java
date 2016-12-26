@@ -2,7 +2,9 @@ package com.nrf.demo.model;
 
 import jxl.Cell;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by puhui on 2016/12/20.
@@ -38,7 +40,7 @@ public class TestCase {
     }
 
     public void setId(String id) {
-        id = id;
+        this.id = id;
     }
 
     public String getPage() {
@@ -46,7 +48,7 @@ public class TestCase {
     }
 
     public void setPage(String page) {
-        page = page;
+        this.page = page;
     }
 
     public String getModule() {
@@ -54,7 +56,7 @@ public class TestCase {
     }
 
     public void setModule(String module) {
-        module = module;
+        this.module = module;
     }
 
     public String getName() {
@@ -62,7 +64,7 @@ public class TestCase {
     }
 
     public void setName(String name) {
-        name = name;
+        this.name = name;
     }
 
     public String getPriority() {
@@ -70,7 +72,7 @@ public class TestCase {
     }
 
     public void setPriority(String priority) {
-        priority = priority;
+        this.priority = priority;
     }
 
     public String getType() {
@@ -78,7 +80,7 @@ public class TestCase {
     }
 
     public void setType(String type) {
-        type = type;
+        this.type = type;
     }
 
     public String getStep() {
@@ -86,7 +88,7 @@ public class TestCase {
     }
 
     public void setStep(String step) {
-        step = step;
+        this.step = step;
     }
 
     public String getInput() {
@@ -98,11 +100,11 @@ public class TestCase {
     }
 
     public void setResult(Boolean result) {
-        result = result;
+        this.result = result;
     }
 
     public void setInput(String input) {
-        input = input;
+        this.input = input;
     }
 
     public String getExpectResult() {
@@ -110,7 +112,7 @@ public class TestCase {
     }
 
     public void setExpectResult(String expectResult) {
-        expectResult = expectResult;
+        this.expectResult = expectResult;
     }
 
     public String getActualResult() {
@@ -118,7 +120,7 @@ public class TestCase {
     }
 
     public void setActualResult(String actualResult) {
-        actualResult = actualResult;
+        this.actualResult = actualResult;
     }
 
 
@@ -127,7 +129,7 @@ public class TestCase {
     }
 
     public void setLog(String log) {
-        log = log;
+        this.log = log;
     }
 
     @Override
@@ -148,16 +150,17 @@ public class TestCase {
                 '}';
     }
 
-    public TestCase(Cell[] cells) {
-        id = cells[0].getContents();
-        page = cells[1].getContents();
-        module = cells[2].getContents();
-        name = cells[3].getContents();
-        priority = cells[4].getContents();
-        type = cells[5].getContents();
-        step = cells[6].getContents();
-        input = cells[7].getContents();
-        expectResult = cells[8].getContents();
+
+    public TestCase(Map<String,String> map) {
+        id = map.get("测试用例编号");
+        page = map.get("测试页面名称");
+        module = map.get("测试模块名称");
+        name = map.get("测试用例名称");
+        priority = map.get("优先级");
+        type = map.get("类型");
+        step = map.get("步骤");
+        input = map.get("输入");
+        expectResult = map.get("预期输出");
         actualResult = "";
         result = false;
         log = "";
