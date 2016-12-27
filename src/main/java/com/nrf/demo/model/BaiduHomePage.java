@@ -7,7 +7,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -53,12 +55,19 @@ public class BaiduHomePage {
     }
 
     /**打开登陆窗口*/
-    public void getLoginWindow(){
+    public WebDriver getLoginWindow(){
         JavascriptExecutor javascriptExecutor = (JavascriptExecutor)driver;
         driver.get(url);
         driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
         List<WebElement> elements = (List<WebElement>) javascriptExecutor.executeScript("return jQuery.find('a.lb')");
         elements.get(1).click();
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return driver;
     }
 
     /**定位到标签栏*/
@@ -79,5 +88,19 @@ public class BaiduHomePage {
             }
         }
         Thread.sleep(1000);
+    }
+
+    public void switchToNewWindow(){
+        //得到当前句柄
+        String currentWindow = driver.getWindowHandle();
+        //得到所有窗口的句柄
+        Set<String> handles = driver.getWindowHandles();
+
+        //排除当前窗口的句柄，则剩下是新窗口
+        Iterator<String> it = handles.iterator();
+        while(it.hasNext()){
+            if(currentWindow == it.next())  continue;
+            driver.switchTo().window(it.next());
+        }
     }
 }

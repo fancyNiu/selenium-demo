@@ -5,7 +5,13 @@
     <parameter name="resultReprot" value="/report/nrf0101.xls" />
     <test name="BaiduHomePage">
         <classes>
-            <class name="com.nrf.demo.cases.BaiduHomePageTest"/>
+            <class name="com.nrf.demo.cases.BaiduHomePageTest">
+                <methods>
+                    <include name="loginTest" />
+                    <exclude name="menuTest"/>
+                    <exclude name="searchTest"/>
+                </methods>
+            </class>
         </classes>
     </test>
 </suite>

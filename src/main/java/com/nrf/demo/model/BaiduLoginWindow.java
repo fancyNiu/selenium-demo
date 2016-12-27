@@ -5,18 +5,21 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.Iterator;
+import java.util.Set;
+
 /**
  * Created by puhui on 2016/12/19.
  */
 public class BaiduLoginWindow {
     private WebDriver driver;
     //用户名输入框
-    @FindBy(name="userName")
+    @FindBy(xpath="//*[@id=\"TANGRAM__PSP_8__userName\"]")
     @CacheLookup
     public By userNameBox;
 
     //密码输入框
-    @FindBy(name="password")
+    @FindBy(xpath=".//*[@id='TANGRAM__PSP_8__userName']")
     @CacheLookup
     public By passwordBox;
 
@@ -25,8 +28,8 @@ public class BaiduLoginWindow {
     @CacheLookup
     public By verifyCodeBox;
 
-    //验证码输入框
-    @FindBy(name="memberPass")
+    //自动登陆选择框
+    @FindBy(id="TANGRAM__PSP_8__memberPass")
     @CacheLookup
     public By memberPassCheckBox;
 
@@ -35,10 +38,9 @@ public class BaiduLoginWindow {
     @CacheLookup
     public By loginButton;
 
-    public BaiduLoginWindow(WebDriver driver) {
+    public BaiduLoginWindow(WebDriver driver) throws InterruptedException {
         BaiduHomePage baiduHomePage = new BaiduHomePage(driver);
-        baiduHomePage.getLoginWindow();
-        this.driver = driver;
+        this.driver = baiduHomePage.getLoginWindow();
     }
 
     /**登陆功能*/

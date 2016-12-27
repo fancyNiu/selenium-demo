@@ -1,6 +1,7 @@
 package com.nrf.demo.cases;
 
 import com.nrf.demo.model.BaiduHomePage;
+import com.nrf.demo.model.BaiduLoginWindow;
 import com.nrf.demo.model.TestCase;
 import com.nrf.demo.service.ChromeService;
 import com.nrf.demo.service.FirefoxService;
@@ -138,18 +139,27 @@ public class BaiduHomePageTest {
         //执行用例
         for(TestCase testCase : testCases){
 
-            //打开链接
-            BaiduHomePage baiduHomePage = new BaiduHomePage(driver);
-            baiduHomePage.openLinkByText("登录");
+            //打开登陆窗口
+            BaiduLoginWindow baiduLoginWindow = new BaiduLoginWindow(driver);
 
-            //获取新链接
-            String currentUrl = driver.getCurrentUrl();
-            System.out.println(currentUrl);
+            String[] inputs = testCase.getStep().split("\r\n");
 
-            //判断链接是否正确
-            Boolean result = menuResultCompare(testCase.getExpectResult(),currentUrl);
-            testCase.setActualResult(currentUrl);
-            testCase.setResult(result);
+            String userName = "";
+            String passWord = "";
+            Boolean memberPass = false;
+            for(String input : inputs){
+                if(input.startsWith("userName")){
+                    userName = input.split(" ")[1];
+                }else if(input.startsWith("passWord")){
+                    passWord = input.split(" ")[1];
+                }else if(input.startsWith("memberPass")){
+                    memberPass = Boolean.valueOf(input.split(" ")[1]);
+                }
+            }
+
+            baiduLoginWindow.login(userName,passWord,memberPass);
+
+            testCase.setResult(true);
             testResult.add(testCase);
         }
         ExcelUtil.writeReport(resultReprot,testResult);
